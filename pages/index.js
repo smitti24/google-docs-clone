@@ -1,6 +1,7 @@
 import Head from "next/head";
 import CreateNewDocument from "../components/CreateNewDocument";
 import Header from "../components/Header";
+import MyDocuments from "../components/MyDocuments";
 
 export default function Home() {
   return (
@@ -15,6 +16,11 @@ export default function Home() {
       <section className="bg-[#F8F9FA] pb-10 px-10 ">
         <div className="max-w-3xl mx-auto">
           <CreateNewDocument />
+        </div>
+      </section>
+      <section className="bg-white px-10 md:px-0">
+        <div className="max-w-3xl mx-auto text-sm text-grey-700">
+          <MyDocuments />
         </div>
       </section>
     </div>
