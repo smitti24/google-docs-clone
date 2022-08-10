@@ -1,4 +1,5 @@
 import Head from "next/head";
+import CreateNewDocument from "../components/CreateNewDocument";
 import Header from "../components/Header";
 
 export default function Home() {
@@ -10,6 +11,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
+
+      <section className="bg-[#F8F9FA] pb-10 px-10 ">
+        <div className="max-w-3xl mx-auto">
+          <CreateNewDocument />
+        </div>
+      </section>
     </div>
   );
 }

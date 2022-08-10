@@ -7,8 +7,8 @@ function Header() {
       <Button
         color="grey"
         variant="outlined"
-        rounded={true}
-        iconOnly={true}
+        rounded="true"
+        icononly="true"
         ripple={true}
         className="hidden md:inline-flex border-0 rounded-full"
       >
@@ -29,8 +29,8 @@ function Header() {
       <Button
         color="grey"
         variant="outlined"
-        rounded={true}
-        iconOnly={true}
+        rounded="true"
+        icononly="true"
         ripple={true}
         className="hidden md:inline-flex border-0 rounded-full ml-5 md:ml-20"
       >
