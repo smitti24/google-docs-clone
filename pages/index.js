@@ -2,8 +2,14 @@ import Head from "next/head";
 import CreateNewDocument from "../components/CreateNewDocument";
 import Header from "../components/Header";
 import MyDocuments from "../components/MyDocuments";
+import { getSession, useSession } from "next-auth/react";
+import Login from "../components/Login";
 
 export default function Home() {
+  const { data: session } = useSession();
+
+  if (!session) return <Login />;
+
   return (
     <div>
       <Head>
@@ -25,4 +31,14 @@ export default function Home() {
       </section>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      session,
+    },
+  };
 }
