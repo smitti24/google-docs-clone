@@ -1,14 +1,78 @@
+import { useState } from "react";
 import Head from "next/head";
 import CreateNewDocument from "../components/CreateNewDocument";
 import Header from "../components/Header";
 import MyDocuments from "../components/MyDocuments";
 import { getSession, useSession } from "next-auth/react";
 import Login from "../components/Login";
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { database } from "../firebase";
+import { collection, doc, serverTimestamp, addDoc } from "firebase/firestore";
 
 export default function Home() {
   const { data: session } = useSession();
+  const [showModal, setShowModal] = useState(false);
+  const [input, setInput] = useState("");
+
+  const createDocument = async () => {
+    if (!input) return;
+
+    const docRef = doc(database, "userDocs", session.user.email);
+    const colRef = collection(docRef, "docs");
+
+    await addDoc(colRef, {
+      fileName: input,
+      timestamp: serverTimestamp(),
+    })
+      .then(() => {
+        console.log("CREATED");
+      })
+      .catch((err) => {
+        console.error("Error creating document", err);
+      });
+
+    setInput();
+    setShowModal(false);
+  };
 
   if (!session) return <Login />;
+
+  const modal = (
+    <Dialog open={showModal} handler={() => setShowModal(false)}>
+      <DialogBody divider>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          type="text"
+          className="outline-none w-full"
+          placeholder="Enter name of document..."
+          onKeyDown={(e) => e.key === "Enter" && createDocument()}
+        />
+      </DialogBody>
+      <DialogFooter>
+        <Button
+          variant="text"
+          color="blue"
+          onClick={() => setShowModal(false)}
+          className="mr-1"
+        >
+          <span>Cancel</span>
+        </Button>
+        <Button
+          variant="gradient"
+          color="green"
+          onClick={() => createDocument()}
+        >
+          <span>Confirm</span>
+        </Button>
+      </DialogFooter>
+    </Dialog>
+  );
 
   return (
     <div>
@@ -19,8 +83,10 @@ export default function Home() {
       </Head>
       <Header />
 
+      {modal}
+
       <section className="bg-[#F8F9FA] pb-10 px-10 ">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto" onClick={() => setShowModal(true)}>
           <CreateNewDocument />
         </div>
       </section>
