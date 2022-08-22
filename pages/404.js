@@ -4,4 +4,4 @@ function error() {
   return <div>_error</div>;
 }
 
-export default _error;
+export default error;
