@@ -11,33 +11,22 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { app, database } from "../firebase";
-import {
-  collection,
-  doc,
-  serverTimestamp,
-  addDoc,
-  query,
-  orderBy,
-  setDoc,
-  collectionGroup,
-  onSnapshot,
-  getCollection,
-} from "firebase/firestore";
+import { database } from "../firebase";
+import { collection, doc, serverTimestamp, addDoc } from "firebase/firestore";
 import {
   useCollection,
   useCollectionOnce,
 } from "react-firebase-hooks/firestore";
-import DocumentRow from "../components/DocumentRow";
 
 export default function Home() {
   const { data: session } = useSession();
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
-
   const [snapshot, loading, error] = useCollection(
-    collection(database, "userDocs", session?.user.email, "docs")
+    collection(database, "userDocs", session?.user?.email, "docs")
   );
+
+  if (!session) return <Login />;
 
   const createDocument = async () => {
     if (!input) return;
@@ -59,8 +48,6 @@ export default function Home() {
     setInput();
     setShowModal(false);
   };
-
-  if (!session) return <Login />;
 
   const modal = (
     <Dialog open={showModal} handler={() => setShowModal(false)}>

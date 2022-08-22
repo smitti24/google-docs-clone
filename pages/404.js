@@ -1,6 +1,6 @@
 import React from "react";
 
-function _error() {
+function error() {
   return <div>_error</div>;
 }
 
