@@ -64,7 +64,7 @@ function Doc() {
           className="rounded-full cursor-pointer h-10 w-10 ml-2"
         />
       </header>
-      <div className="max-w-3xl">
+      <div>
         <TextEditor />
       </div>
     </div>
